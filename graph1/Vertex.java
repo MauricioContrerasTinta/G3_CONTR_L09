@@ -1,4 +1,6 @@
 package graph1;
+import listlinked.ListLinked;
+import listlinked.Node;
 
 public class Vertex<E> {
     private E data;

@@ -1,4 +1,6 @@
 package graph1;
+import listlinked.ListLinked;
+import listlinked.Node;
 import java.util.HashSet;
 
 public class GraphLink<E> {

@@ -40,6 +40,17 @@ public class GraphLink<E> {
         return false;
     }
 
+    public void removeVertex(E data) {
+        Vertex<E> vRemove = listVertex.search(new Vertex<>(data));
+        if (vRemove == null) return;
+        ListLinked.Node<Vertex<E>> current = listVertex.getHead();
+        while (current != null) {
+            current.data.listAdj.remove(new Edge<>(vRemove));
+            current = current.next;
+        }
+        listVertex.remove(vRemove);
+    }
+
 
 
     public String toString(){

@@ -1,4 +1,4 @@
-package graph;
+package graph1;
 
 public class Edge<E> {
     private Vertex<E> refDest;

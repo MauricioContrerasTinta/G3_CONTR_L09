@@ -1,4 +1,4 @@
-package graph;
+package graph1;
 import java.util.HashSet;
 
 public class GraphLink<E> {
@@ -83,7 +83,6 @@ public class GraphLink<E> {
             current = current.next;
         }
     }
-
 
     public String toString(){
         return this.listVertex.toString();

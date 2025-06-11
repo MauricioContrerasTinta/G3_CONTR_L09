@@ -1,4 +1,4 @@
-package graph;
+package graph1;
 
 public class Vertex<E> {
     private E data;

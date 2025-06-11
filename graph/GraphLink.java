@@ -60,6 +60,13 @@ public class GraphLink<E> {
         }
     }
 
+    public void dfs(E data) {
+        HashSet<E> visited = new HashSet<>();
+        Vertex<E> start = listVertex.search(new Vertex<>(data));
+        if (start != null)
+            dfsRecursive(start, visited);
+    }
+
 
     public String toString(){
         return this.listVertex.toString();

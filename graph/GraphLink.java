@@ -51,6 +51,14 @@ public class GraphLink<E> {
         listVertex.remove(vRemove);
     }
 
+    public void removeEdge(E verOri, E verDes) {
+        Vertex<E> vOri = listVertex.search(new Vertex<>(verOri));
+        Vertex<E> vDes = listVertex.search(new Vertex<>(verDes));
+        if (vOri != null && vDes != null) {
+            vOri.listAdj.remove(new Edge<>(vDes));
+            vDes.listAdj.remove(new Edge<>(vOri)); // por ser no dirigido
+        }
+    }
 
 
     public String toString(){

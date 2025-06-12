@@ -278,6 +278,67 @@ public class GraphLink<E> {
         return stack;
     }
 
+    public int gradoNodo(E data) {
+        Vertex<E> v = getVertex(data);
+        if (v == null) return -1;
+        return v.listAdj.length();
+    }
+
+    public boolean esCamino() {
+        int extremos = 0;
+        Node<Vertex<E>> current = listVertex.getFirst();
+
+        while (current != null) {
+            int grado = current.getData().listAdj.length();
+            if (grado == 1) extremos++;
+            else if (grado != 2) return false;
+            current = current.getNext();
+        }
+        return extremos == 2;
+    }
+
+    public boolean esCiclo() {
+        if (!isConexo()) return false;
+
+        Node<Vertex<E>> current = listVertex.getFirst();
+        while (current != null) {
+            if (current.getData().listAdj.length() != 2) return false;
+            current = current.getNext();
+        }
+        return true;
+    }
+
+    public boolean esRueda() {
+        if (!isConexo()) return false;
+
+        int n = 0;
+        int centro = 0;
+        Node<Vertex<E>> current = listVertex.getFirst();
+
+        while (current != null) {
+            int grado = current.getData().listAdj.length();
+            if (grado == listVertex.length() - 1) centro++;
+            else if (grado != 3 && grado != 2) return false;
+            n++;
+            current = current.getNext();
+        }
+
+        return centro == 1 && n >= 4;
+    }
+
+    public boolean esCompleto() {
+        int n = listVertex.length();
+        Node<Vertex<E>> current = listVertex.getFirst();
+
+        while (current != null) {
+            if (current.getData().listAdj.length() != n - 1) return false;
+            current = current.getNext();
+        }
+        return true;
+    }
+
+
+
 
 
 

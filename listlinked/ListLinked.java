@@ -72,6 +72,17 @@ public class ListLinked<T> {
         return first == null;
     }
 
+    public int length() {
+        int count = 0;
+        Node<T> current = first;
+        while (current != null) {
+            count++;
+            current = current.getNext();
+        }
+        return count;
+    }
+
+
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -82,4 +93,5 @@ public class ListLinked<T> {
         }
         return sb.toString();
     }
+
 }

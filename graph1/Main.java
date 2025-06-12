@@ -14,5 +14,8 @@ public class Main {
         graph.insertEdge("A", "C", 3);
         graph.insertEdge("B", "D", 4);
         graph.insertEdge("C", "D");
+
+        // Mostrar grafo
+        System.out.println("Grafo:\n" + graph);
     }
 }

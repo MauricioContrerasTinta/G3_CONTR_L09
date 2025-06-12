@@ -425,7 +425,103 @@ public class GraphLink<E> {
         return sb.toString();
     }
 
+   public boolean esIsomorfo(GraphLink<E> otro) {
+        if (this.listVertex.length() != otro.listVertex.length()) return false;
 
+        Node<Vertex<E>> nodo = listVertex.getFirst();
+        while (nodo != null) {
+            Vertex<E> v1 = nodo.getData();
+            Vertex<E> v2 = otro.getVertex(v1.getData()); // corregido aquí
+            if (v2 == null) return false;
+
+            if (v1.listAdj.length() != v2.listAdj.length()) return false;
+
+            nodo = nodo.getNext();
+        }
+        return true;
+    }
+
+    public boolean esPlano() {
+        int n = listVertex.length();   
+        int e = contarAristas();         
+        if (n < 3) return true;          
+        return e <= 3 * n - 6;         
+    }
+
+    private int contarAristas() {
+        int count = 0;
+        Node<Vertex<E>> nodo = listVertex.getFirst();
+        while (nodo != null) {
+            Vertex<E> v = nodo.getData();
+            count += v.listAdj.length();
+            nodo = nodo.getNext();
+        }
+        return count;
+    }
+
+    public boolean esConexo() {
+        if (listVertex.isEmpty()) return true;
+
+        Set<E> visitados = new HashSet<>();
+        Queue<Vertex<E>> cola = new LinkedList<>();
+
+        Vertex<E> inicio = listVertex.getFirst().getData();
+        cola.add(inicio);
+        visitados.add(inicio.getData());
+
+        while (!cola.isEmpty()) {
+            Vertex<E> actual = cola.poll();
+            Node<Edge<E>> ady = actual.listAdj.getFirst();
+            while (ady != null) {
+                Vertex<E> vecino = ady.getData().refDest;
+                if (!visitados.contains(vecino.getData())) {
+                    visitados.add(vecino.getData());
+                    cola.add(vecino);
+                }
+                ady = ady.getNext();
+            }
+        }
+
+        return visitados.size() == listVertex.length();
+    }
+
+    public boolean esAutocomplementario() {
+        GraphLink<E> complemento = obtenerComplemento();
+        return this.esIsomorfo(complemento);
+    }
+    private GraphLink<E> obtenerComplemento() {
+        GraphLink<E> comp = new GraphLink<>();
+        Node<Vertex<E>> nodo = listVertex.getFirst();
+        while (nodo != null) {
+            comp.insertVertex(nodo.getData().getData());
+            nodo = nodo.getNext();
+        }
+        nodo = listVertex.getFirst();
+        while (nodo != null) {
+            Vertex<E> v1 = nodo.getData();
+            Node<Vertex<E>> otroNodo = listVertex.getFirst();
+            while (otroNodo != null) {
+                Vertex<E> v2 = otroNodo.getData();
+                if (!v1.equals(v2) && !existeArista(v1, v2)) {
+                    comp.insertEdge(v1.getData(), v2.getData());
+                }
+                otroNodo = otroNodo.getNext();
+            }
+            nodo = nodo.getNext();
+        }
+        return comp;
+    }
+
+    private boolean existeArista(Vertex<E> origen, Vertex<E> destino) {
+        Node<Edge<E>> ady = origen.listAdj.getFirst();
+        while (ady != null) {
+            if (ady.getData().refDest.equals(destino)) {
+                return true;
+            }
+            ady = ady.getNext();
+        }
+        return false;
+    }
 
 
     public String toString() {

@@ -36,5 +36,23 @@ public class Main {
         System.out.println(graph.representacionFormal());
         System.out.println(graph.representacionListaAdyacencia());
         System.out.println(graph.representacionMatrizAdyacencia());
+
+        System.out.println("¿Es conexo? " + graph.esConexo());
+        System.out.println("¿Es plano? " + graph.esPlano());
+        System.out.println("¿Es autocomplementario? " + graph.esAutocomplementario());
+
+        // Comparar con otro
+        GraphLink<String> otro = new GraphLink<>();
+        otro.insertVertex("A");
+        otro.insertVertex("B");
+        otro.insertVertex("C");
+        otro.insertVertex("D");
+
+        otro.insertEdge("A", "B");
+        otro.insertEdge("B", "C");
+        otro.insertEdge("C", "D");
+        otro.insertEdge("D", "A");
+
+        System.out.println("¿Es isomorfo con otro? " + graph.esIsomorfo(otro));
     }
 }

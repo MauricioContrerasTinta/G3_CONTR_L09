@@ -14,4 +14,19 @@ public class GraphLink<E> {
     public boolean searchVertex(E data) {
         return listVertex.contains(new Vertex<>(data));
     }
+
+    public boolean searchEdge(E v, E z) {
+        Vertex<E> vertexV = getVertex(v);
+        Vertex<E> vertexZ = getVertex(z);
+
+        if (vertexV == null || vertexZ == null) return false;
+
+        return vertexV.listAdj.contains(new Edge<>(vertexZ));
+    }
+
+    public void insertVertex(E data) {
+        if (!searchVertex(data)) {
+            listVertex.insertLast(new Vertex<>(data));
+        }
+    }
 }

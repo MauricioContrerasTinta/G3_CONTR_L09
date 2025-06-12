@@ -21,5 +21,8 @@ public class Main {
         System.out.println("Existe vertice C? " + graph.searchVertex("C")); //true
         System.out.println("Existe arista A-B? " + graph.searchEdge("A", "B")); //true
         System.out.println("Existe arista B-C? " + graph.searchEdge("B", "C")); //false
+
+        System.out.println("\nDFS desde A:");
+        graph.dfs("A");
     }
 }

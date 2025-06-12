@@ -51,4 +51,14 @@ public class GraphLink<E> {
             vertexZ.listAdj.insertLast(edge2);
         }
     }
+
+    public void removeEdge(E v, E z) {
+        Vertex<E> vertexV = getVertex(v);
+        Vertex<E> vertexZ = getVertex(z);
+
+        if (vertexV == null || vertexZ == null) return;
+
+        vertexV.listAdj.remove(new Edge<>(vertexZ));
+        vertexZ.listAdj.remove(new Edge<>(vertexV));
+    }
 }

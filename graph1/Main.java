@@ -28,5 +28,9 @@ public class Main {
         System.out.println("\nEliminar arista A-C");
         graph.removeEdge("A", "C");
         System.out.println("Grafo:\n" + graph);
+
+        System.out.println("Eliminando vertice D");
+        graph.removeVertex("D");
+        System.out.println("Grafo:\n" + graph);
     }
 }

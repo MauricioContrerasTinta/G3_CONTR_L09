@@ -110,4 +110,14 @@ public class GraphLink<E> {
         }
         return null;
     }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        Node<Vertex<E>> current = listVertex.getFirst();
+        while (current != null) {
+            sb.append(current.getData().toString());
+            current = current.getNext();
+        }
+        return sb.toString();
+    }
 }

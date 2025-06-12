@@ -33,4 +33,22 @@ public class GraphLink<E> {
     public void insertEdge(E v, E z) {
         insertEdge(v, z, -1);
     }
+
+    public void insertEdge(E v, E z, int weight) {
+        Vertex<E> vertexV = getVertex(v);
+        Vertex<E> vertexZ = getVertex(z);
+
+        if (vertexV == null || vertexZ == null) return;
+
+        Edge<E> edge1 = new Edge<>(vertexZ, weight);
+        Edge<E> edge2 = new Edge<>(vertexV, weight);
+
+        if (!vertexV.listAdj.contains(edge1)) {
+            vertexV.listAdj.insertLast(edge1);
+        }
+
+        if (!vertexZ.listAdj.contains(edge2)) {
+            vertexZ.listAdj.insertLast(edge2);
+        }
+    }
 }

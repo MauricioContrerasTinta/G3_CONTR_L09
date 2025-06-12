@@ -24,5 +24,9 @@ public class Main {
 
         System.out.println("\nDFS desde A:");
         graph.dfs("A");
+
+        System.out.println("\nEliminar arista A-C");
+        graph.removeEdge("A", "C");
+        System.out.println("Grafo:\n" + graph);
     }
 }

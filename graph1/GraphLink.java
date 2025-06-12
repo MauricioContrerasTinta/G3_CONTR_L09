@@ -337,7 +337,93 @@ public class GraphLink<E> {
         return true;
     }
 
+    // Representación formal del grafo
+    public String representacionFormal() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("V = {");
+        Node<Vertex<E>> node = listVertex.getFirst();
+        while (node != null) {
+            sb.append(node.getData().getData());
+            if (node.getNext() != null) sb.append(", ");
+            node = node.getNext();
+        }
+        sb.append("}\nE = {");
+        
+        Set<String> edges = new HashSet<>();
+        node = listVertex.getFirst();
+        while (node != null) {
+            Vertex<E> v = node.getData();
+            Node<Edge<E>> adj = v.listAdj.getFirst();
+            while (adj != null) {
+                E from = v.getData();
+                E to = adj.getData().refDest.getData();
+                // evitar duplicados
+                String edge = "(" + from + ", " + to + ")";
+                String reverse = "(" + to + ", " + from + ")";
+                if (!edges.contains(reverse)) {
+                    edges.add(edge);
+                }
+                adj = adj.getNext();
+            }
+            node = node.getNext();
+        }
+        sb.append(String.join(", ", edges)).append("}");
+        return sb.toString();
+    }
 
+    // Lista de adyacencias
+    public String representacionListaAdyacencia() {
+        StringBuilder sb = new StringBuilder();
+        Node<Vertex<E>> node = listVertex.getFirst();
+        while (node != null) {
+            Vertex<E> v = node.getData();
+            sb.append(v.getData()).append(" -> ");
+            Node<Edge<E>> adj = v.listAdj.getFirst();
+            while (adj != null) {
+                sb.append(adj.getData().refDest.getData());
+                adj = adj.getNext();
+                if (adj != null) sb.append(" -> ");
+            }
+            sb.append("\n");
+            node = node.getNext();
+        }
+        return sb.toString();
+    }
+
+    // Matriz de adyacencia
+    public String representacionMatrizAdyacencia() {
+        ArrayList<Vertex<E>> vertices = new ArrayList<>();
+        Node<Vertex<E>> node = listVertex.getFirst();
+        while (node != null) {
+            vertices.add(node.getData());
+            node = node.getNext();
+        }
+
+        StringBuilder sb = new StringBuilder("   ");
+        for (Vertex<E> v : vertices) {
+            sb.append(v.getData()).append(" ");
+        }
+        sb.append("\n");
+
+        for (Vertex<E> v1 : vertices) {
+            sb.append(v1.getData()).append(" ");
+            for (Vertex<E> v2 : vertices) {
+                boolean connected = false;
+                Node<Edge<E>> adj = v1.listAdj.getFirst();
+                while (adj != null) {
+                    if (adj.getData().refDest.equals(v2)) {
+                        connected = true;
+                        break;
+                    }
+                    adj = adj.getNext();
+                }
+                sb.append(" ").append(connected ? "1" : "0");
+            }
+            sb.append("\n");
+        }
+
+        return sb.toString();
+    }
 
 
 

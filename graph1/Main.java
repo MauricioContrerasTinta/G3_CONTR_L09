@@ -32,5 +32,9 @@ public class Main {
         System.out.println("Eliminando vertice D");
         graph.removeVertex("D");
         System.out.println("Grafo:\n" + graph);
+
+        System.out.println(graph.representacionFormal());
+        System.out.println(graph.representacionListaAdyacencia());
+        System.out.println(graph.representacionMatrizAdyacencia());
     }
 }

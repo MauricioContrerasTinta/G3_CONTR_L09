@@ -1,5 +1,4 @@
 package listlinked;
-import java.util.HashSet;
 
 public class ListLinked<T> {
     private Node<T> first;
@@ -54,15 +53,15 @@ public class ListLinked<T> {
     }
 
     public Node<T> search(T data) {
-    Node<T> current = head;
+    Node<T> current = first;
     while (current != null) {
-        if (current.data.equals(data)) {
+        if (current.getData().equals(data)) {
             return current;
         }
-        current = current.next;
+        current = current.getNext();
     }
     return null;
-}
+    }
 
 
     public Node<T> getFirst() {

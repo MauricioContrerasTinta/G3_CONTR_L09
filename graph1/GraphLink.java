@@ -58,7 +58,7 @@ public class GraphLink<E> {
         Vertex<E> vDes = listVertex.search(new Vertex<>(verDes));
         if (vOri != null && vDes != null) {
             vOri.listAdj.remove(new Edge<>(vDes));
-            vDes.listAdj.remove(new Edge<>(vOri)); // por ser no dirigido
+            vDes.listAdj.remove(new Edge<>(vOri)); 
         }
     }
 

@@ -1,8 +1,14 @@
 package graph1;
 import listlinked.ListLinked;
 import listlinked.Node;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 
@@ -114,30 +120,121 @@ public class GraphLink<E> {
     }
 
     public void bfs(E startData) {
-    Vertex<E> startVertex = getVertex(startData);
-    if (startVertex == null) return;
+        Vertex<E> startVertex = getVertex(startData);
+        if (startVertex == null) return;
 
-    Set<Vertex<E>> visited = new HashSet<>();
-    Queue<Vertex<E>> queue = new LinkedList<>();
+        Set<Vertex<E>> visited = new HashSet<>();
+        Queue<Vertex<E>> queue = new LinkedList<>();
 
-    queue.add(startVertex);
-    visited.add(startVertex);
+        queue.add(startVertex);
+        visited.add(startVertex);
 
-    while (!queue.isEmpty()) {
-        Vertex<E> current = queue.poll();
-        System.out.println(current.getData());
+        while (!queue.isEmpty()) {
+            Vertex<E> current = queue.poll();
+            System.out.println(current.getData());
 
-        Node<Edge<E>> adj = current.listAdj.getFirst();
-        while (adj != null) {
-            Vertex<E> neighbor = adj.getData().refDest;
-            if (!visited.contains(neighbor)) {
-                visited.add(neighbor);
-                queue.add(neighbor);
+            Node<Edge<E>> adj = current.listAdj.getFirst();
+            while (adj != null) {
+                Vertex<E> neighbor = adj.getData().refDest;
+                if (!visited.contains(neighbor)) {
+                    visited.add(neighbor);
+                    queue.add(neighbor);
+                }
+                adj = adj.getNext();
             }
-            adj = adj.getNext();
         }
     }
-}
+
+    public ArrayList<E> bfsPath(E fromData, E toData) {
+        Vertex<E> start = getVertex(fromData);
+        Vertex<E> end = getVertex(toData);
+        if (start == null || end == null) return null;
+
+        Map<Vertex<E>, Vertex<E>> parent = new HashMap<>();
+        Set<Vertex<E>> visited = new HashSet<>();
+        Queue<Vertex<E>> queue = new LinkedList<>();
+
+        queue.add(start);
+        visited.add(start);
+        parent.put(start, null);
+
+        while (!queue.isEmpty()) {
+            Vertex<E> current = queue.poll();
+            if (current.equals(end)) break;
+
+            Node<Edge<E>> adj = current.listAdj.getFirst();
+            while (adj != null) {
+                Vertex<E> neighbor = adj.getData().refDest;
+                if (!visited.contains(neighbor)) {
+                    visited.add(neighbor);
+                    queue.add(neighbor);
+                    parent.put(neighbor, current);
+                }
+                adj = adj.getNext();
+            }
+        }
+
+        ArrayList<E> path = new ArrayList<>();
+        if (!parent.containsKey(end)) return path;
+
+        Vertex<E> step = end;
+        while (step != null) {
+            path.add(0, step.getData());
+            step = parent.get(step);
+        }
+
+        return path;
+    }
+
+    public void insertEdgeWeight(E v, E z, int weight) {
+        insertEdge(v, z, weight); // reutiliza el método existente
+    }
+
+    public ArrayList<E> shortPath(E fromData, E toData) {
+        Vertex<E> start = getVertex(fromData);
+        Vertex<E> end = getVertex(toData);
+        if (start == null || end == null) return null;
+        Map<Vertex<E>, Integer> dist = new HashMap<>();
+        Map<Vertex<E>, Vertex<E>> prev = new HashMap<>();
+        Set<Vertex<E>> visited = new HashSet<>();
+        PriorityQueue<Vertex<E>> pq = new PriorityQueue<>(Comparator.comparingInt(dist::get));
+        // Inicialización
+        Node<Vertex<E>> current = listVertex.getFirst();
+        while (current != null) {
+            Vertex<E> v = current.getData();
+            dist.put(v, v.equals(start) ? 0 : Integer.MAX_VALUE);
+            prev.put(v, null);
+            current = current.getNext();
+        }
+        pq.add(start);
+        while (!pq.isEmpty()) {
+            Vertex<E> u = pq.poll();
+            if (visited.contains(u)) continue;
+            visited.add(u);
+
+            Node<Edge<E>> adj = u.listAdj.getFirst();
+            while (adj != null) {
+                Vertex<E> neighbor = adj.getData().refDest;
+                int weight = adj.getData().weight;
+                if (dist.get(u) + weight < dist.get(neighbor)) {
+                    dist.put(neighbor, dist.get(u) + weight);
+                    prev.put(neighbor, u);
+                    pq.add(neighbor);
+                }
+                adj = adj.getNext();
+            }
+        }
+        // Construir el camino
+        ArrayList<E> path = new ArrayList<>();
+        Vertex<E> step = end;
+        if (dist.get(end) == Integer.MAX_VALUE) return path; // no hay camino
+
+        while (step != null) {
+            path.add(0, step.getData());
+            step = prev.get(step);
+        }
+        return path;
+    }
 
 
     public String toString() {

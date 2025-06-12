@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
+import java.util.Stack;
 
 public class GraphLink<E> {
     private ListLinked<Vertex<E>> listVertex;
@@ -235,6 +236,51 @@ public class GraphLink<E> {
         }
         return path;
     }
+
+    public boolean isConexo() {
+        if (listVertex.isEmpty()) return true;
+
+        Set<Vertex<E>> visited = new HashSet<>();
+        Queue<Vertex<E>> queue = new LinkedList<>();
+
+        Vertex<E> start = listVertex.getFirst().getData();
+        queue.add(start);
+        visited.add(start);
+
+        while (!queue.isEmpty()) {
+            Vertex<E> current = queue.poll();
+
+            Node<Edge<E>> adj = current.listAdj.getFirst();
+            while (adj != null) {
+                Vertex<E> neighbor = adj.getData().refDest;
+                if (!visited.contains(neighbor)) {
+                    visited.add(neighbor);
+                    queue.add(neighbor);
+                }
+                adj = adj.getNext();
+            }
+        }
+
+        // Recorremos todos los vértices y verificamos si fueron visitados
+        Node<Vertex<E>> node = listVertex.getFirst();
+        while (node != null) {
+            if (!visited.contains(node.getData())) return false;
+            node = node.getNext();
+        }
+
+        return true;
+    }
+
+    public Stack<E> dijkstra(E fromData, E toData) {
+        ArrayList<E> path = shortPath(fromData, toData);
+        Stack<E> stack = new Stack<>();
+        for (int i = path.size() - 1; i >= 0; i--) {
+            stack.push(path.get(i));
+        }
+        return stack;
+    }
+
+
 
 
     public String toString() {

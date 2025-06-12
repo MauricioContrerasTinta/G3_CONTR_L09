@@ -68,6 +68,11 @@ public class ListLinked<T> {
         return first;
     }
 
+    public boolean isEmpty() {
+        return first == null;
+    }
+
+
     public String toString() {
         StringBuilder sb = new StringBuilder();
         Node<T> current = first;

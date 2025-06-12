@@ -61,4 +61,21 @@ public class GraphLink<E> {
         vertexV.listAdj.remove(new Edge<>(vertexZ));
         vertexZ.listAdj.remove(new Edge<>(vertexV));
     }
+
+    public void removeVertex(E data) {
+        Vertex<E> vertexToRemove = getVertex(data);
+        if (vertexToRemove == null) return;
+        // Eliminar todas las aristas que llegan a este vértice
+        Node<Vertex<E>> current = listVertex.getFirst();
+        while (current != null) {
+            Vertex<E> v = current.getData();
+            if (!v.equals(vertexToRemove)) {
+                v.listAdj.remove(new Edge<>(vertexToRemove));
+            }
+            current = current.getNext();
+        }
+        // Eliminar el vértice
+        listVertex.remove(vertexToRemove);
+    }
+    
 }

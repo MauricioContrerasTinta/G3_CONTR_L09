@@ -29,4 +29,8 @@ public class GraphLink<E> {
             listVertex.insertLast(new Vertex<>(data));
         }
     }
+
+    public void insertEdge(E v, E z) {
+        insertEdge(v, z, -1);
+    }
 }

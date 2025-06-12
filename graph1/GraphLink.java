@@ -77,5 +77,28 @@ public class GraphLink<E> {
         // Eliminar el vértice
         listVertex.remove(vertexToRemove);
     }
+
+    public void dfs(E startData) {
+        Vertex<E> startVertex = getVertex(startData);
+        if (startVertex == null) return;
+
+        Set<E> visited = new HashSet<>();
+        dfsRecursive(startVertex, visited);
+    }
+
+    private void dfsRecursive(Vertex<E> current, Set<E> visited) {
+        if (visited.contains(current.getData())) return;
+
+        System.out.println(current.getData());
+        visited.add(current.getData());
+
+        Node<Edge<E>> adjNode = current.listAdj.getFirst();
+        while (adjNode != null) {
+            Vertex<E> neighbor = adjNode.getData().refDest;
+            dfsRecursive(neighbor, visited);
+            adjNode = adjNode.getNext();
+        }
+    }
+
     
 }

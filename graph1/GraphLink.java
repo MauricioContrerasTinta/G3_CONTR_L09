@@ -100,5 +100,14 @@ public class GraphLink<E> {
         }
     }
 
-    
+    private Vertex<E> getVertex(E data) {
+        Node<Vertex<E>> current = listVertex.getFirst();
+        while (current != null) {
+            if (current.getData().getData().equals(data)) {
+                return current.getData();
+            }
+            current = current.getNext();
+        }
+        return null;
+    }
 }

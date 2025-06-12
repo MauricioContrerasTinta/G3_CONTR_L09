@@ -260,14 +260,12 @@ public class GraphLink<E> {
                 adj = adj.getNext();
             }
         }
-
         // Recorremos todos los vértices y verificamos si fueron visitados
         Node<Vertex<E>> node = listVertex.getFirst();
         while (node != null) {
             if (!visited.contains(node.getData())) return false;
             node = node.getNext();
         }
-
         return true;
     }
 

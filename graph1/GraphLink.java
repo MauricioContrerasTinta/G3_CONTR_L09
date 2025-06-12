@@ -2,6 +2,8 @@ package graph1;
 import listlinked.ListLinked;
 import listlinked.Node;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Set;
 
 public class GraphLink<E> {
@@ -110,6 +112,33 @@ public class GraphLink<E> {
         }
         return null;
     }
+
+    public void bfs(E startData) {
+    Vertex<E> startVertex = getVertex(startData);
+    if (startVertex == null) return;
+
+    Set<Vertex<E>> visited = new HashSet<>();
+    Queue<Vertex<E>> queue = new LinkedList<>();
+
+    queue.add(startVertex);
+    visited.add(startVertex);
+
+    while (!queue.isEmpty()) {
+        Vertex<E> current = queue.poll();
+        System.out.println(current.getData());
+
+        Node<Edge<E>> adj = current.listAdj.getFirst();
+        while (adj != null) {
+            Vertex<E> neighbor = adj.getData().refDest;
+            if (!visited.contains(neighbor)) {
+                visited.add(neighbor);
+                queue.add(neighbor);
+            }
+            adj = adj.getNext();
+        }
+    }
+}
+
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
